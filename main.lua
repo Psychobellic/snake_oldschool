@@ -1,3 +1,4 @@
+require "src/collision"
 _G.love = require("love")
 
 function love.load()
@@ -14,6 +15,8 @@ function love.load()
     food.x = math.random(1,799)
     food.y = math.random(1,599)
     food.eaten = false
+
+    _G.score = 0
 end
 
 function love.update()
@@ -42,6 +45,11 @@ function love.update()
         snake.direction = "N"
     elseif love.keyboard.isDown("s") then
         snake.direction = "S"
+    end
+
+    if AABB(snake.x, snake.y, 10, 10, food.x, food.y, 10, 10) then
+        food.eaten = true
+        score = score + 1
     end
 
     if snake.x <= 0 then
